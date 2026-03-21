@@ -1,92 +1,96 @@
-import {defineStore} from 'pinia';
+import { defineStore } from 'pinia';
 import axios from 'axios';
 
 export const useAuthStore = defineStore('auth', {
-    state: () =>({
+    state: () => ({
         user: null,
         token: localStorage.getItem('token') || null,
         isAuthenticated: false,
         errorMessage: ""
     }),
-    
-    actions: {
-        async login(credentials){
-            this.errorMessage ="";
 
-            try{
-                const response = await axios.post('http://127.0.0.1:8000/api/login', credentials);
+    actions: {
+        async login(credentials) {
+            this.errorMessage = "";
+
+            try {
+                const response = await axios.post(import.meta.env.VITE_BACKEND_URL + 'login', credentials);
                 this.token = response.data.token;
                 this.isAuthenticated = true;
                 localStorage.setItem('token', response.data.token);
             }
-            catch(error){
-                if(error.response){
+            catch (error) {
+                if (error.response) {
                     this.errorMessage = error.response.data.message;
                     console.log(error);
                 }
-                else if (error.request){
+                else if (error.request) {
                     this.errorMessage = error.message;
                     console.log(error);
                 }
-                else{
+                else {
                     console.log(error);
                 }
             }
         },
-        
-        async getUser(){
+
+        async getUser() {
             this.errorMessage = "";
-            try{
-                const response = await axios.get('http://127.0.0.1:8000/api/user',
-                    {headers: {
-                        Authorization: 'Bearer ' + this.token
-                    }}
+            try {
+                const response = await axios.get(import.meta.env.VITE_BACKEND_URL + 'user',
+                    {
+                        headers: {
+                            Authorization: 'Bearer ' + this.token
+                        }
+                    }
                 );
                 this.user = response.data;
             }
-            catch(error){
-                if(error.response){
+            catch (error) {
+                if (error.response) {
                     this.errorMessage = error.response.data.message;
                     console.log(error);
                 }
-                else if (error.request){
+                else if (error.request) {
                     this.errorMessage = error.message;
                     console.log(error);
                 }
-                else{
+                else {
                     console.log(error);
                 }
             }
         },
 
-        async logout(){
+        async logout() {
 
-        try{
-            const response = await axios.get('http://127.0.0.1:8000/api/logout',
-                {headers: {
-                    Authorization: 'Bearer ' + this.token
-                }}
-            );
-            this.errorCode = response.data.code;
-            this.errorMessage = response.data.message;
-            this.token = null;
-            this.user = null;
-            this.isAuthenticated = false;
-            localStorage.removeItem('token');
-        }
-        catch(error){
-            if(error.response){
-                this.errorMessage = error.response.data.message;
-                console.log(error);
+            try {
+                const response = await axios.get(import.meta.env.VITE_BACKEND_URL + 'logout',
+                    {
+                        headers: {
+                            Authorization: 'Bearer ' + this.token
+                        }
+                    }
+                );
+                this.errorCode = response.data.code;
+                this.errorMessage = response.data.message;
+                this.token = null;
+                this.user = null;
+                this.isAuthenticated = false;
+                localStorage.removeItem('token');
             }
-            else if (error.request){
-                this.errorMessage = error.message;
-                console.log(error);
+            catch (error) {
+                if (error.response) {
+                    this.errorMessage = error.response.data.message;
+                    console.log(error);
+                }
+                else if (error.request) {
+                    this.errorMessage = error.message;
+                    console.log(error);
+                }
+                else {
+                    console.log(error);
+                }
             }
-            else{
-                console.log(error);
-            }
-        }
-    },
+        },
     }
 })

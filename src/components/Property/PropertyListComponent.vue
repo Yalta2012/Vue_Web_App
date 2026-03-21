@@ -1,30 +1,45 @@
 <script setup>
-import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { onMounted, computed, ref } from 'vue';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
+import { useDataStore } from '@/stores/dataStore';
 
-const properties = ref([]);
+const dataStore = useDataStore();
+const perpage = ref(5);
+const offset = ref(0);
+
+
+const properties = computed(() => { return dataStore.properties; });
+const properties_total = computed(() => { return dataStore.properties_total; });
 
 onMounted(async () => {
-    const response = await axios.get('http://127.0.0.1:8000/api/property');
-    properties.value = response.data;
-})
+    await dataStore.getProperties();
+    await dataStore.getPropertiesTotal();
+});
 
+function onPageChange(event) {
+    offset.value = event.first;
+    perpage.value = event.rows;
+    dataStore.getProperties({ page: offset.value / perpage.value, perpage: perpage.value });
+}
 
 </script>
 
+
+
 <template>
-    <div>
-        <h2>Property List</h2>
-        <div v-for="property in properties">
-            <h3>{{ property.title }}</h3>
-            <p>{{ property.description }}</p>
-            <p>Доступно: {{ property.is_available ? 'Да' : 'Нет' }}</p>
-            <p>Тип: {{ property.property_type.name }}</p>
-            <p>Адрес: {{ property.address.street }}, д. {{ property.address.house }}</p>
-            <p>Город: {{ property.address.city.name }}</p>
-            <p>Регион: {{ property.address.city.region.name }}</p>
-            <p>Страна: {{ property.address.city.region.country.name }}</p>
-            <hr>
-        </div>
-    </div>
+    <DataTable :value="properties" :lazy="true" :loading="dataStore.loading" :paginator="true" :rows="perpage"
+        :rowsPerPageOptions="[2, 5, 10]" :totalRecords=properties_total @page="onPageChange" responsive-layout="scroll"
+        :landing="true" :first="offset">
+
+        <Column field="title" header="Название"></Column>
+        <Column field="description" header="Описание"></Column>
+        <Column field="is_available" header="Доступно"></Column>
+        <Column field="property_type.name" header="Тип недвижимости"></Column>
+        <Column field="address.street" header="Адрес"></Column>
+        <Column field="address.city.name" header="Город"></Column>
+        <Column field="address.city.region.name" header="Регион"></Column>
+        <Column field="address.city.region.country.name" header="Страна"></Column>
+
+    </DataTable>
 </template>
