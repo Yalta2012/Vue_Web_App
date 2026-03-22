@@ -20,13 +20,13 @@ const items = ref([
     {
         label: 'Профиль',
         icon: 'pi pi-fw pi-user',
-        route: 'profile',
+        route: '/profile',
     },
 
     {
         label: 'Список объектов',
         icon: 'pi pi-fw pi-box',
-        route: 'property',
+        route: '/property',
     }
 ]);
 const isAuthenticated = computed(() => { return authStore.isAuthenticated })
