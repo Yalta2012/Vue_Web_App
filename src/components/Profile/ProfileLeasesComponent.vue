@@ -1,30 +1,37 @@
 <script setup>
 import { useDataStore } from '@/stores/dataStore';
-import { computed, ref } from 'vue';
+import { useAuthStore } from '@/stores/authStore';
+
+import { computed, ref, onMounted } from 'vue';
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 
-const user = computed(() => { return authStore.user })
+const authStore = useAuthStore();
 const dataStore = useDataStore();
 const perpage = ref(5);
 const offset = ref(0);
 const leases = computed(() => { return dataStore.user_leases; });
 const leases_total = computed(() => { return dataStore.user_leases_total; });
 
-function onPageChange(event) {
+async function onPageChange(event) {
     offset.value = event.first;
     perpage.value = event.rows;
-    dataStore.getLeases({ tenant_id: user ?? user.id, page: offset.value / perpage.value, perpage: perpage.value });
+    await dataStore.getLeases({ user_id: authStore.user.id, page: offset.value / perpage.value, perpage: perpage.value });
+    await dataStore.getLeasesTotal({ user_id: authStore.user.id });
 }
 
+onMounted(async () => {
+    await dataStore.getLeases({ user_id: authStore.user.id, page: offset.value / perpage.value, perpage: perpage.value });
+    await dataStore.getLeasesTotal({ user_id: authStore.user.id });
+});
 </script>
 
 
 <template>
     <div>
         <h2>My leases</h2>
-        <DataTable :value="leases" :lazy="true" :loading="dataStore.loading" :paginator="true" :rows="perpage"
+        <DataTable :value="leases" :loading="dataStore.loading" :paginator="true" :rows="perpage"
             :rowsPerPageOptions="[2, 5, 10]" :totalRecords="leases_total" @page="onPageChange"
             responsive-layout="scroll" :first="offset">
             <Column field="property.title" header="Название"></Column>

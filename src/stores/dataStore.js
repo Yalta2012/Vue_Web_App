@@ -73,9 +73,6 @@ export const useDataStore = defineStore('data',
 
                     const response = await axios.get(backendUrl + 'property_total', { params });
 
-                    console.log('AAA');
-                    console.log(response.data);
-                    console.log(filters);
                     if (filters.user_id) {
                         this.user_properties_total = response.data;
                     }
@@ -109,7 +106,7 @@ export const useDataStore = defineStore('data',
                         page: filters.page ?? 0,
                         perpage: filters.perpage ?? 5,
                         property_id: filters.property_id ?? null,
-                        tenant_id: filters.tenant_id ?? null
+                        tenant_id: filters.user_id ?? null
 
                     };
 
@@ -145,11 +142,12 @@ export const useDataStore = defineStore('data',
                 try {
                     const params = {
                         property_id: filters.property_id ?? null,
-                        tenant_id: filters.tenant_id ?? null
+                        tenant_id: filters.user_id ?? null
                     };
 
                     const response = await axios.get(backendUrl + 'leases_total', { params });
-                    this.leases_total = response.data;
+                    console.log(response.data);
+                    this.user_leases_total = response.data;
                 }
                 catch (error) {
                     if (error.response) {

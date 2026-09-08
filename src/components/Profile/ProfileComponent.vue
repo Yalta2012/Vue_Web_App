@@ -30,6 +30,7 @@
                     <router-link to="/profile/">Profile info</router-link>
                     <router-link to="/profile/property">My property</router-link>
                     <router-link to="/profile/leases">My leases</router-link>
+                    <router-link to="/profile/new_property">Add new property</router-link>
                 </div>
                 <router-view />
 

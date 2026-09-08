@@ -18,11 +18,7 @@ const routes = [
         name: 'PropertyList',
         component: PropertyListComponent,
     },
-    {
-        path: '/new_property',
-        name: 'new_property',
-        component: CreatePropertyComponent,
-    },
+
     {
         path: '/profile',
         name: 'Profile',
@@ -42,7 +38,12 @@ const routes = [
                 path: 'property',
                 name: 'ProfileProperties',
                 component: ProfilePropertyComponent
-            }
+            },
+            {
+                path: 'new_property',
+                name: 'new_property',
+                component: CreatePropertyComponent,
+            },
         ]
     },
 

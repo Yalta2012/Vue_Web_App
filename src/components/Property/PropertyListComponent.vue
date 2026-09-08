@@ -39,6 +39,7 @@ function onPageChange(event) {
                 <div v-else class="no-image">Нет изображения</div>
             </template>
         </Column>
+
         <Column field="title" header="Название"></Column>
         <Column field="description" header="Описание"></Column>
         <Column field="is_available" header="Доступно"></Column>
