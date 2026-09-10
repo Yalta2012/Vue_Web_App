@@ -1,12 +1,12 @@
 <script setup>
 import { useDataStore } from '@/stores/dataStore';
-import { useAuthStore } from '@/stores/authStore';
+import { userAuthStore } from '@/stores/authStore';
 import { computed, ref, onMounted } from 'vue';
 
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 
-const authStore = useAuthStore();
+const authStore = userAuthStore();
 const dataStore = useDataStore();
 const perpage = ref(5);
 const offset = ref(0);

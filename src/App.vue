@@ -1,11 +1,13 @@
 <script setup>
 import HeaderComponent from '@/components/HeaderComponent.vue';
 import { onMounted } from 'vue';
-import { useAuthStore } from './stores/authStore';
+import { userAuthStore } from './stores/authStore';
 
-const authStore = useAuthStore();
+const authStore = userAuthStore();
 onMounted(async () => {
-  await authStore.getUser();
+  if (userAuthStore.token) {
+    await authStore.getUser();
+  }
 });
 
 </script>

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { useAuthStore } from '@/stores/authStore';
+import { userAuthStore } from '@/stores/authStore';
 import Button from 'primevue/button';
 import Menubar from 'primevue/menubar';
 import InputText from 'primevue/inputtext';
@@ -8,7 +8,7 @@ import InputText from 'primevue/inputtext';
 
 const email = ref('');
 const password = ref('')
-const authStore = useAuthStore()
+const authStore = userAuthStore()
 
 const items = ref([
     {
@@ -89,9 +89,12 @@ onMounted(async () => {
                         <Button type="submit">Enter</Button>
                         <div class="ml-2"><small v-if="authError" class="error">{{ authError }}</small></div>
                     </form>
+                    <router-link to="/register">
+                        Регистрация
+                    </router-link>
                 </div>
-            </div>
 
+            </div>
 
         </template>
     </Menubar>

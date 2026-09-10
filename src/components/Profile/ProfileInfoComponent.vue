@@ -1,9 +1,9 @@
 <script setup>
-import { useAuthStore } from '@/stores/authStore';
+import { userAuthStore } from '@/stores/authStore';
 
 import { computed } from 'vue';
 
-const authStore = useAuthStore();
+const authStore = userAuthStore();
 const user = computed(() => { return authStore.user })
 
 </script>

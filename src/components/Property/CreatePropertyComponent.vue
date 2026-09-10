@@ -4,13 +4,13 @@ import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
 import { Toast, Card, Textarea, Select, FileUpload } from 'primevue';
 import { useDataStore } from '@/stores/dataStore';
-import { useAuthStore } from '@/stores/authStore';
+import { userAuthStore } from '@/stores/authStore';
 import { computed, reactive, onMounted } from 'vue';
 import { data } from 'autoprefixer';
 import { useToast } from 'primevue/usetoast';
 
 const dataStore = useDataStore();
-const authStore = useAuthStore();
+const authStore = userAuthStore();
 
 const toast = useToast();
 

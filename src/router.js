@@ -6,6 +6,7 @@ import ProfileInfoComponent from '@/components/Profile/ProfileInfoComponent.vue'
 import ProfileLeasesComponent from '@/components/Profile/ProfileLeasesComponent.vue'
 import ProfilePropertyComponent from '@/components/Profile/ProfilePropertyComponent.vue'
 import CreatePropertyComponent from "./components/Property/CreatePropertyComponent.vue";
+import RegisterFormComponent from "./components/RegisterFormComponent.vue";
 const routes = [
     {
         path: '/',
@@ -17,6 +18,12 @@ const routes = [
         path: '/property',
         name: 'PropertyList',
         component: PropertyListComponent,
+    },
+
+    {
+        path: '/register',
+        name: RegisterFormComponent,
+        component: RegisterFormComponent
     },
 
     {

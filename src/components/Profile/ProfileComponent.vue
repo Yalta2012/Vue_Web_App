@@ -1,10 +1,10 @@
     <script setup>
     import { computed, onMounted } from 'vue';
-    import { useAuthStore } from '@/stores/authStore';
+    import { userAuthStore } from '@/stores/authStore';
     import { useDataStore } from '@/stores/dataStore';
 
 
-    const authStore = useAuthStore();
+    const authStore = userAuthStore();
     const dataStore = useDataStore();
 
     const isAuthenticated = computed(() => { return authStore.isAuthenticated })
